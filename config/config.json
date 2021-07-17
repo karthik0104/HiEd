@@ -4,5 +4,9 @@
     "user": "root",
     "password": "Check.mate01#",
     "database": "hied"
+  },
+  "security": {
+    "token_validity_in_days": 5,
+    "secret_key": "Kiger"
   }
 }

@@ -13,3 +13,6 @@ class ArgumentsParser:
         self.db_password = data['database']['password']
         self.db_database = data['database']['database']
 
+        self.token_validity_in_days = data['security']['token_validity_in_days']
+        self.secret_key = data['security']['secret_key']
+

@@ -1,18 +1,20 @@
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String
-from dataclasses import dataclass
 
 Base = declarative_base()
 
-@dataclass
-class University(Base):
-    __tablename__ = 'university'
+class User(Base):
+    __tablename__ = 'user'
 
     id: int
+    public_id: str
     name: str
+    password: str
 
     id = Column(Integer, primary_key=True)
+    public_id = Column(String)
     name = Column(String)
+    password = Column(String)
 
     def __repr__(self):
-        return "<University(name='%s')>" % (self.name)
+        return "<User(name='%s', public_id='%s')>" % (self.name, self.public_id)

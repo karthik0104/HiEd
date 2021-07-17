@@ -17,10 +17,15 @@ SQLAlchemy would be used as an ORM solution.
 
 from flask import Flask
 from blueprint.university_router import university
+from blueprint.user_rouer import user
 
 app = Flask(__name__)
-app.register_blueprint(university)
+app.register_blueprint(university, url_prefix='/university')
+app.register_blueprint(user, url_prefix='/user')
 
 @app.route('/')
 def default():
     return None
+
+if __name__ == '__main__':
+    app.run(host='localhost', port=5344)
