@@ -14,6 +14,6 @@ class UniversityService:
         self.session.commit()
         return university
 
-    def getUniversityByName(self, name):
-        our_univ = self.session.query(University).filter_by(name='Univ Of NY').first()
+    def getUniversityById(self, id):
+        our_univ = self.session.query(University).filter_by(id=id).first()
         return our_univ
