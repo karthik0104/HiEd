@@ -2,6 +2,7 @@
   "database": {
     "host": "localhost",
     "user": "root",
-    "password": "Check.mate01#"
+    "password": "Check.mate01#",
+    "database": "hied"
   }
 }

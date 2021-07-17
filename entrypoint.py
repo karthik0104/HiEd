@@ -11,6 +11,8 @@ List of Entities:
 5. Document
 
 The primary util system which we will be using for storage is MySQL. We will also be using MongoDB for Document storage.
+
+SQLAlchemy would be used as an ORM solution.
 '''
 
 from flask import Flask
