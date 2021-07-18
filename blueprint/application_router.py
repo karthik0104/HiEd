@@ -14,3 +14,10 @@ def add_application(current_user):
     application = application_service.addApplication(current_user, data)
     return jsonify(application)
 
+@application.route('/view/<id>', methods=['GET'])
+@token_required
+def view_application(current_user, id):
+    application = application_service.viewApplication(current_user, id)
+    print(application)
+    print(jsonify(application))
+    return jsonify(application)

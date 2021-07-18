@@ -13,3 +13,8 @@ class ApplicationService:
         db.session.add(application)
         db.session.commit()
         return application
+
+    def viewApplication(self, current_user, id):
+        application = db.session.query(Application).filter_by(id=id).first()
+        #return application._asdict()
+        return application
