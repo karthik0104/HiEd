@@ -16,16 +16,30 @@ SQLAlchemy would be used as an ORM solution.
 '''
 
 from flask import Flask
-from blueprint.university_router import university
-from blueprint.user_rouer import user
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
-app.register_blueprint(university, url_prefix='/university')
-app.register_blueprint(user, url_prefix='/user')
+db = SQLAlchemy()
 
-@app.route('/')
-def default():
-    return None
+def init_app():
+    """Construct the core application."""
+    app = Flask(__name__, instance_relative_config=False)
+    app.config.from_object('app_config.Config')
+
+    db.init_app(app)
+
+    with app.app_context():
+        from blueprint.university_router import university
+        from blueprint.user_router import user
+        from blueprint.application_router import application
+
+        app.register_blueprint(university, url_prefix='/university')
+        app.register_blueprint(user, url_prefix='/user')
+        app.register_blueprint(application, url_prefix='/application')
+
+        #db.create_all()  # Create sql tables for our data models
+
+        return app
 
 if __name__ == '__main__':
+    app = init_app()
     app.run(host='localhost', port=5344)

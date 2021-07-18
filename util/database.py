@@ -1,9 +1,8 @@
 from mysql.connector import connect, Error, OperationalError
-from config.argsparser import ArgumentsParser
-import cryptography
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from entity.university import University
+
+from config.argsparser import ArgumentsParser
 
 configs = ArgumentsParser()
 

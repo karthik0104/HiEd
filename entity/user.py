@@ -1,9 +1,9 @@
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer, String
+from flask_sqlalchemy import SQLAlchemy
+from entrypoint import db
+from dataclasses import dataclass
 
-Base = declarative_base()
-
-class User(Base):
+@dataclass
+class User(db.Model):
     __tablename__ = 'user'
 
     id: int
@@ -11,10 +11,10 @@ class User(Base):
     name: str
     password: str
 
-    id = Column(Integer, primary_key=True)
-    public_id = Column(String)
-    name = Column(String)
-    password = Column(String)
+    id = db.Column(db.Integer, primary_key=True)
+    public_id = db.Column(db.String)
+    name = db.Column(db.String)
+    password = db.Column(db.String)
 
     def __repr__(self):
         return "<User(name='%s', public_id='%s')>" % (self.name, self.public_id)

@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from service.user import UserService
 
 user = Blueprint('user', __name__)
@@ -10,11 +10,11 @@ def signup_user():
     data = request.get_json()
     user = user_service.register_user(data)
 
-    return None
+    return jsonify(user)
 
 @user.route('/login', methods=['GET', 'POST'])
 def login_user():
     auth = request.authorization
-    status = user_service.login_user(auth)
+    token = user_service.login_user(auth)
 
-    return None
+    return token
