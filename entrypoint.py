@@ -31,10 +31,12 @@ def init_app():
         from blueprint.university_router import university
         from blueprint.user_router import user
         from blueprint.application_router import application
+        from blueprint.masterdata_router import mdm
 
         app.register_blueprint(university, url_prefix='/university')
         app.register_blueprint(user, url_prefix='/user')
         app.register_blueprint(application, url_prefix='/application')
+        app.register_blueprint(mdm, url_prefix='/masterdata')
 
         #db.create_all()  # Create sql tables for our data models
 

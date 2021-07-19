@@ -8,5 +8,9 @@
   "security": {
     "token_validity_in_days": 5,
     "secret_key": "Kiger"
+  },
+  "masterdata": {
+    "folder": "C:\\GE_Karthik\\Projects\\HiEd",
+    "university_course_file": "Course_University_Masterdata.csv"
   }
 }

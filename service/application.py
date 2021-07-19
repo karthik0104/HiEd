@@ -1,7 +1,6 @@
 from config.argsparser import ArgumentsParser
 from entity.application import Application
 from entrypoint import db
-from security.annotation import token_required
 
 configs = ArgumentsParser()
 

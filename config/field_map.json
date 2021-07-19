@@ -1,0 +1,23 @@
+{
+  "course_data": {
+    "Course": "name",
+    "Course Website": "website",
+    "Address": "address",
+    "Deadline": "deadline",
+    "Contact Number": "contact_number",
+    "Contact Email": "email",
+    "Acceptance Rate": "acceptance_rate",
+    "Acceptance Rate Source": "acceptance_rate_source",
+    "Quant Cutoff Score": "quant_cutoff",
+    "Verbal Cutoff Score": "verbal_cutoff",
+    "TOEFL Cutoff Score": "toefl_cutoff",
+    "Cutoff Score Source": "cutoff_score_source",
+    "Ranking": "ranking",
+    "Ranking Source / Organization": "ranking_source",
+    "Batch Size": "batch_size",
+    "Batch Size Source": "batch_size_source",
+    "Annual Fees": "annual_fees",
+    "Annual Fees Source": "annual_fees_source",
+    "Is_Internship_Mandatory": "is_internship_mandatory"
+  }
+}

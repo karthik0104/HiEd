@@ -16,5 +16,7 @@ class User(db.Model):
     name = db.Column(db.String)
     password = db.Column(db.String)
 
+    applications = db.relationship('Application', backref='user')
+
     def __repr__(self):
         return "<User(name='%s', public_id='%s')>" % (self.name, self.public_id)

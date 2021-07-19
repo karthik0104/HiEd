@@ -9,7 +9,7 @@ university_service = UniversityService()
 
 @university.route('/view/<university_id>')
 @token_required
-def view_university_details(university_id):
-    university = university_service.getUniversityById(university_id)
+def view_university_details(current_user, university_id):
+    university = university_service.getUniversityById(current_user, university_id)
     return university
 
