@@ -19,14 +19,14 @@ def token_required(f):
 
         if not token:
             return jsonify({'message': 'A valid token is missing'})
-        try:
-            data = jwt.decode(token, configs.secret_key)
+        #try:
+        data = jwt.decode(token, configs.secret_key)
             #session = DataConnector.getSession(configs.db_host, configs.db_user, configs.db_password,
             #                                   configs.db_database)
 
-            current_user = db.session.query(User).filter_by(public_id=data['public_id']).first()
-        except:
-            return jsonify({'message': 'Token is invalid'})
+        current_user = db.session.query(User).filter_by(public_id=data['public_id']).first()
+        #except:
+        #   return jsonify({'message': 'Token is invalid'})
 
         if not current_user:
             return jsonify({'message': 'A valid token is missing'})

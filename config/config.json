@@ -11,6 +11,7 @@
   },
   "masterdata": {
     "folder": "C:\\GE_Karthik\\Projects\\HiEd",
-    "university_course_file": "Course_University_Masterdata.csv"
+    "university_course_file": "Course_University_Masterdata.csv",
+    "locale_bundle_file": "Locale_Bundle.csv"
   }
 }

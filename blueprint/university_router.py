@@ -13,3 +13,8 @@ def view_university_details(current_user, university_id):
     university = university_service.getUniversityById(current_user, university_id)
     return university
 
+@university.route('/view/courses')
+@token_required
+def view_all_universities_lite(current_user):
+    all_universities = university_service.getAllUniversityCourses(current_user, lite=True)
+    return all_universities

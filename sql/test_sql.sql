@@ -14,6 +14,7 @@ CREATE TABLE user (
     name VARCHAR(256),
     public_id VARCHAR(512),
     password VARCHAR(512),
+    locale_id INTEGER,
     PRIMARY KEY (id)
 );
 
@@ -51,3 +52,21 @@ CREATE TABLE course (
     PRIMARY KEY (id),
     FOREIGN KEY (university_id) REFERENCES university(id)
 );
+
+CREATE TABLE locale (
+    id INTEGER AUTO_INCREMENT,
+    language VARCHAR(64),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE locale_bundle (
+    id INTEGER AUTO_INCREMENT,
+    screen_name VARCHAR(256),
+    field_name VARCHAR(256),
+    locale_id INTEGER,
+    value VARCHAR(512),
+    PRIMARY KEY (id),
+    FOREIGN KEY (locale_id) REFERENCES locale(id)
+);
+
+INSERT INTO locale(language) VALUES ('EN');

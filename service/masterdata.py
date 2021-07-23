@@ -2,16 +2,17 @@
 The masterdata management (MDM) service layer to handle bulk import / update of data such as Universities,
 Courses and other data through CSV / Excel files into the relational SQL database.
 """
+import json
 import math
 import os
-import json
+
 import pandas as pd
 
 from config.argsparser import ArgumentsParser
-from entity.university import University
 from entity.course import Course
+from entity.university import University
+from entity.locale import LocaleField, Locale
 from entrypoint import db
-from sqlalchemy import Boolean
 
 # Load configuration parameters
 configs = ArgumentsParser()
@@ -30,7 +31,7 @@ class MasterdataService:
                 field_map[key] = key
             if hasattr(object, field_map[key]):
                 if str(Course.__table__.c[field_map[key]].type) == 'BOOLEAN':
-                    value = (0 if (value=='Yes') else 1)
+                    value = (1 if ((value == 'Yes') | (value == 'Y')) else 0)
                 setattr(object, field_map[key], value)
 
         return object
@@ -114,5 +115,34 @@ class MasterdataService:
 
         universities = self.update_university_data(df)
         self.update_course_data(df, universities)
+
+        return {'status': self.status}
+
+    def update_locale_data(self):
+        # Load the Locale Bundle file
+        df = pd.read_csv(os.path.join(configs.masterdata_folder, configs.locale_bundle_file))
+
+        locale_fields = []
+
+        # Add records from file
+        for index, row in df.iterrows():
+            locale = db.session.query(Locale).filter_by(language=row['language']).first()
+
+            if locale is None:
+                return {'status': 'No valid locale mapping found'}
+
+            locale_field = LocaleField(screen_name=row['screen_name'], field_name=row['field_name'],
+                                      locale_id=locale.id, value=row['value'])
+            locale_fields.append(locale_field)
+
+        # Delete all existing records from table
+        db.session.query(LocaleField).delete()
+        db.session.commit()
+
+        # Add new records
+        db.session.add_all(locale_fields)
+        db.session.commit()
+
+        self.status = 'Success'
 
         return {'status': self.status}

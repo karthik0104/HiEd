@@ -18,4 +18,5 @@ class ArgumentsParser:
 
         self.masterdata_folder = data['masterdata']['folder']
         self.university_course_file = data['masterdata']['university_course_file']
+        self.locale_bundle_file = data['masterdata']['locale_bundle_file']
 
