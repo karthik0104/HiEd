@@ -1,7 +1,5 @@
-from entrypoint import db
 from dataclasses import dataclass
-from dataclasses import dataclass
-
+from entity.user import User
 from entrypoint import db
 
 

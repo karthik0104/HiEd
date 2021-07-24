@@ -9,6 +9,8 @@ List of Entities:
 3. User
 4. Application
 5. Document
+6. Course
+7. Locale & LocaleField
 
 The primary util system which we will be using for storage is MySQL. We will also be using MongoDB for Document storage.
 
@@ -32,11 +34,13 @@ def init_app():
         from blueprint.user_router import user
         from blueprint.application_router import application
         from blueprint.masterdata_router import mdm
+        from blueprint.metadata_router import metadata
 
         app.register_blueprint(university, url_prefix='/university')
         app.register_blueprint(user, url_prefix='/user')
         app.register_blueprint(application, url_prefix='/application')
         app.register_blueprint(mdm, url_prefix='/masterdata')
+        app.register_blueprint(metadata, url_prefix='/metadata')
 
         #db.create_all()  # Create sql tables for our data models
 

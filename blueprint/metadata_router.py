@@ -7,8 +7,8 @@ metadata = Blueprint('metadata', __name__)
 
 metadata_service = MetadataService()
 
-@metadata.route('/all', methods=['POST'])
+@metadata.route('/ui-metadata', methods=['GET'])
 @token_required
 def get_metadata(current_user):
-    status = metadata_service.get_metadata()
-    return status
+    response = metadata_service.get_metadata(current_user)
+    return jsonify(response)

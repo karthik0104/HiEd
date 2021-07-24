@@ -5,17 +5,20 @@ import os
 import pandas as pd
 
 from config.argsparser import ArgumentsParser
+from entity.locale import LocaleField
+from entrypoint import db
 
 # Load configuration parameters
 configs = ArgumentsParser()
 
 class MetadataService:
 
-    def get_metadata(self):
-        # Load the master dataset
-        df = pd.read_csv(os.path.join(configs.masterdata_folder, configs.university_course_file))
+    def get_metadata(self, current_user):
+        fields_map = {}
 
-        universities = self.update_university_data(df)
-        self.update_course_data(df, universities)
+        locale_fields = db.session.query(LocaleField).filter_by(locale_id=1).all()
 
-        return {'status': self.status}
+        for locale_field in locale_fields:
+            fields_map[locale_field.screen_name + '_' + locale_field.field_name] = locale_field.value
+
+        return {'metadata': fields_map}

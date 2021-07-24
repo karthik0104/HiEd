@@ -1,6 +1,8 @@
-from flask_sqlalchemy import SQLAlchemy
-from entrypoint import db
 from dataclasses import dataclass
+from entity.application import Application
+
+from entrypoint import db
+
 
 @dataclass
 class User(db.Model):
