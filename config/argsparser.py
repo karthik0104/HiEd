@@ -15,6 +15,7 @@ class ArgumentsParser:
 
         self.token_validity_in_days = data['security']['token_validity_in_days']
         self.secret_key = data['security']['secret_key']
+        self.security_keys_path = data['security']['app_keys_path']
 
         self.masterdata_folder = data['masterdata']['folder']
         self.university_course_file = data['masterdata']['university_course_file']

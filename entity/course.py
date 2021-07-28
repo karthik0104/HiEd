@@ -49,4 +49,4 @@ class Course(db.Model):
     is_internship_mandatory = db.Column(db.Boolean)
 
     def __repr__(self):
-        return "<University(name='%s')>" % (self.name)
+        return "<Course(name='%s')>" % (self.name)

@@ -17,7 +17,7 @@ The primary util system which we will be using for storage is MySQL. We will als
 SQLAlchemy would be used as an ORM solution.
 '''
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -43,6 +43,10 @@ def init_app():
         app.register_blueprint(metadata, url_prefix='/metadata')
 
         #db.create_all()  # Create sql tables for our data models
+
+        @app.route('/')
+        def index():
+            return render_template('index.html')
 
         return app
 
