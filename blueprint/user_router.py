@@ -37,11 +37,16 @@ VAPID_CLAIMS = {
 }
 
 def send_web_push(subscription_information, message_body):
+    print("AUD:")
+    print("https://" + subscription_information['endpoint'].split("www.")[-1].split("//")[-1].split("/")[0])
     return webpush(
         subscription_info=subscription_information,
         data=message_body,
         vapid_private_key=VAPID_PRIVATE_KEY,
-        vapid_claims=VAPID_CLAIMS
+        vapid_claims={
+            "sub": "mailto:develop@raturi.in",
+            "aud": "https://" + subscription_information['endpoint'].split("www.")[-1].split("//")[-1].split("/")[0]
+        }
     )
 
 @user.route("/subscription/", methods=["GET", "POST"])
