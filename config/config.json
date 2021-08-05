@@ -6,7 +6,7 @@
     "database": "hied"
   },
   "security": {
-    "token_validity_in_days": 5,
+    "token_validity_in_days": 30,
     "secret_key": "Kiger",
     "app_keys_path": "C:\\GE_Karthik\\Projects\\HiEd"
   },

@@ -15,10 +15,13 @@ List of Entities:
 The primary util system which we will be using for storage is MySQL. We will also be using MongoDB for Document storage.
 
 SQLAlchemy would be used as an ORM solution.
+
+The application also uses Web Sockets to handle faster and real-time communication with multiple clients.
 '''
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO, send
 
 db = SQLAlchemy()
 
@@ -52,4 +55,23 @@ def init_app():
 
 if __name__ == '__main__':
     app = init_app()
-    app.run(host='localhost', port=5344)
+    socketIo = SocketIO(app, cors_allowed_origins="*")
+
+    @socketIo.on("connect")
+    def connect():
+        print('Connected')
+        print(request.sid)
+
+    @socketIo.on("message")
+    def handleMessage(msg):
+        print(msg)
+        print(request.sid)
+        send("What are you sending to me ? Server knows only Khedon !", room=[request.sid])
+
+    @socketIo.on("disconnect")
+    def disconnect():
+        print('Disconnected')
+        print(request.sid)
+
+    socketIo.run(app, host='localhost', port=5344)
+    #app.run(host='localhost', port=5344)

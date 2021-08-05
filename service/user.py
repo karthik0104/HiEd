@@ -23,7 +23,7 @@ class UserService:
         if ('locale' not in data) or (data['locale'] is None):
             data['locale'] = self.default_user_locale
 
-        locale = db.session.query(Locale).filter_by(language=data['locale'])
+        locale = db.session.query(Locale).filter_by(language=data['locale']).first()
         if locale is None:
             return None
 
