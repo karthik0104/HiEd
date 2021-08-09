@@ -21,3 +21,11 @@ class ArgumentsParser:
         self.university_course_file = data['masterdata']['university_course_file']
         self.locale_bundle_file = data['masterdata']['locale_bundle_file']
 
+        self.rabbit_mq_connection_string = data['rabbitmq']['connection_string']
+        self.rabbit_mq_socket_timeout = data['rabbitmq']['socket_timeout']
+        self.rabbit_mq_routing_key = data['rabbitmq']['routing_key']
+
+        self.redis_host = data['redis']['host']
+        self.redis_port = data['redis']['port']
+        self.redis_password = data['redis']['password']
+

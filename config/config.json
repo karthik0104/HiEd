@@ -14,5 +14,15 @@
     "folder": "C:\\GE_Karthik\\Projects\\HiEd",
     "university_course_file": "Course_University_Masterdata.csv",
     "locale_bundle_file": "Locale_Bundle.csv"
+  },
+  "rabbitmq": {
+    "connection_string": "amqps://annmvtxy:S_66rdXfWSJmjz9dQP3YyQ76LcVAPSSo@puffin.rmq2.cloudamqp.com/annmvtxy",
+    "socket_timeout": 15,
+    "routing_key": "pdfprocess"
+  },
+  "redis": {
+    "host": "redis-18779.c51.ap-southeast-2-1.ec2.cloud.redislabs.com",
+    "port": 18779,
+    "password": "h8cvH2HTS4BZkXXA6oqMVA5hUpexjZKC"
   }
 }

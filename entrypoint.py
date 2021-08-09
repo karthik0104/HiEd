@@ -13,7 +13,6 @@ List of Entities:
 7. Locale & LocaleField
 
 The primary util system which we will be using for storage is MySQL. We will also be using MongoDB for Document storage.
-
 SQLAlchemy would be used as an ORM solution.
 
 The application also uses Web Sockets to handle faster and real-time communication with multiple clients.
@@ -57,21 +56,26 @@ if __name__ == '__main__':
     app = init_app()
     socketIo = SocketIO(app, cors_allowed_origins="*")
 
+    from service.message_handler import connectUser, handleSocketMessage, disconnectUser
+
     @socketIo.on("connect")
     def connect():
         print('Connected')
         print(request.sid)
+        connectUser(request.sid)
 
     @socketIo.on("message")
     def handleMessage(msg):
         print(msg)
         print(request.sid)
-        send("What are you sending to me ? Server knows only Khedon !", room=[request.sid])
+        handleSocketMessage(msg, request.sid)
+        send("Message from server !", room=['dummy_id', request.sid])
 
     @socketIo.on("disconnect")
     def disconnect():
         print('Disconnected')
         print(request.sid)
+        disconnectUser(request.sid)
 
     socketIo.run(app, host='localhost', port=5344)
     #app.run(host='localhost', port=5344)
