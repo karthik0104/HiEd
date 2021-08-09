@@ -73,5 +73,6 @@ if __name__ == '__main__':
         print('Disconnected')
         print(request.sid)
 
+    print('Branch change test !')
     socketIo.run(app, host='localhost', port=5344)
     #app.run(host='localhost', port=5344)
