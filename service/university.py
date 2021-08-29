@@ -2,6 +2,10 @@ from config.argsparser import ArgumentsParser
 from entity.university import University
 from entity.course import Course
 from entrypoint import db
+from sqlalchemy import func
+from annotation.serializer import convert_db_row_to_dict
+from util.serializer import alchemy_encoder
+import json
 
 configs = ArgumentsParser()
 
@@ -15,8 +19,10 @@ class UniversityService:
         return university
 
     def getUniversityById(self, current_user, id):
-        our_univ = db.session.query(University.name.label('name')).filter_by(id=id).first()
-        return our_univ._asdict()
+        #our_univ = db.session.query(University.name.label('name')).filter_by(id=id).first()
+        # return our_univ._asdict()
+        our_univ = db.session.query(University).filter_by(id=id).first()
+        return json.dumps(our_univ, cls=alchemy_encoder(), check_circular=False)
 
     def getAllUniversityCourses(self, current_user, lite=False):
         #all_courses = db.session.query(Course.name.label('name'), University.name.label('university_name')).all()
@@ -30,3 +36,11 @@ class UniversityService:
             result.append(u)
 
         return {'courses': result}
+
+    @convert_db_row_to_dict
+    def getUniversitiesBySearchQuery(self, current_user, query):
+        search_query = "%{}%".format(query)
+        universities = db.session.query(University.id.label('id'), University.name.label('name')).\
+            filter(func.lower(University.name).like(func.lower(search_query))).all()
+
+        return universities

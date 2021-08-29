@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from security.annotation import token_required
+from annotation.security import token_required
 from service.metadata import MetadataService
 
 metadata = Blueprint('metadata', __name__)

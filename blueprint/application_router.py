@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from security.annotation import token_required
+from annotation.security import token_required
 from service.application import ApplicationService
 
 application = Blueprint('application', __name__)

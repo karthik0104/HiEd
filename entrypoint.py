@@ -55,6 +55,7 @@ def init_app():
 
 if __name__ == '__main__':
     app = init_app()
+
     socketIo = SocketIO(app, cors_allowed_origins="*")
 
     @socketIo.on("connect")
