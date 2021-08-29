@@ -18,7 +18,7 @@ class Course(db.Model):
     quant_cutoff: int
     verbal_cutoff: int
     toefl_cutoff: int
-    cutoff_score_source: str
+    #cutoff_score_source: str
     ranking: int
     ranking_source: str
     batch_size: int
@@ -39,7 +39,7 @@ class Course(db.Model):
     quant_cutoff = db.Column(db.Integer)
     verbal_cutoff = db.Column(db.Integer)
     toefl_cutoff = db.Column(db.Integer)
-    cutoff_score_source = db.Column(db.String)
+    #cutoff_score_source = db.Column(db.String)
     ranking = db.Column(db.Integer)
     ranking_source = db.Column(db.String)
     batch_size = db.Column(db.Integer)

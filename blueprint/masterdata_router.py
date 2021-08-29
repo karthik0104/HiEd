@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from security.annotation import token_required
+from annotation.security import token_required
 from service.masterdata import MasterdataService
 
 mdm = Blueprint('mdm', __name__)

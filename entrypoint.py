@@ -54,6 +54,7 @@ def init_app():
 
 if __name__ == '__main__':
     app = init_app()
+
     socketIo = SocketIO(app, cors_allowed_origins="*")
 
     from service.message_handler import connectUser, handleSocketMessage, disconnectUser
@@ -77,5 +78,6 @@ if __name__ == '__main__':
         print(request.sid)
         disconnectUser(request.sid)
 
+    print('Branch change test !')
     socketIo.run(app, host='localhost', port=5344)
     #app.run(host='localhost', port=5344)
