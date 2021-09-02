@@ -18,7 +18,7 @@ SQLAlchemy would be used as an ORM solution.
 The application also uses Web Sockets to handle faster and real-time communication with multiple clients.
 '''
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, send
 
@@ -50,6 +50,14 @@ def init_app():
         def index():
             return render_template('index.html')
 
+        @app.errorhandler(Exception)
+        def handle_error(error):
+            response = {}
+            response['error_type'] = type(error).__name__
+            response['error_code'] = error.code.value
+            response['message'] = error.message
+            return response
+
         return app
 
 if __name__ == '__main__':
@@ -57,26 +65,26 @@ if __name__ == '__main__':
 
     socketIo = SocketIO(app, cors_allowed_origins="*")
 
-    from service.message_handler import connectUser, handleSocketMessage, disconnectUser
+    #from service.message_handler import connectUser, handleSocketMessage, disconnectUser
 
     @socketIo.on("connect")
     def connect():
         print('Connected')
         print(request.sid)
-        connectUser(request.sid)
+        #connectUser(request.sid)
 
     @socketIo.on("message")
     def handleMessage(msg):
         print(msg)
         print(request.sid)
-        handleSocketMessage(msg, request.sid)
+        #handleSocketMessage(msg, request.sid)
         send("Message from server !", room=['dummy_id', request.sid])
 
     @socketIo.on("disconnect")
     def disconnect():
         print('Disconnected')
         print(request.sid)
-        disconnectUser(request.sid)
+        #disconnectUser(request.sid)
 
     print('Branch change test !')
     socketIo.run(app, host='localhost', port=5344)

@@ -18,3 +18,9 @@ def bulk_university_import(current_user):
 def bulk_locale_import(current_user):
     status = mdm_service.update_locale_data()
     return status
+
+@mdm.route('/plan-stages-metadata-import', methods=['POST'])
+@token_required
+def plan_stages_metadata_import(current_user):
+    status = mdm_service.update_plan_masterdata()
+    return status

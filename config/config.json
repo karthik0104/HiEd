@@ -13,7 +13,8 @@
   "masterdata": {
     "folder": "C:\\GE_Karthik\\Projects\\HiEd",
     "university_course_file": "Course_University_Masterdata.csv",
-    "locale_bundle_file": "Locale_Bundle.csv"
+    "locale_bundle_file": "Locale_Bundle.csv",
+    "plan_stages_metadata_file": "Plan_Stages_Masterdata.csv"
   },
   "rabbitmq": {
     "connection_string": "amqps://annmvtxy:S_66rdXfWSJmjz9dQP3YyQ76LcVAPSSo@puffin.rmq2.cloudamqp.com/annmvtxy",

@@ -11,6 +11,7 @@ import pandas as pd
 from config.argsparser import ArgumentsParser
 from entity.course import Course
 from entity.university import University
+from entity.plan import PlanStageMasterdata
 from entity.locale import LocaleField, Locale
 from entrypoint import db
 
@@ -108,6 +109,24 @@ class MasterdataService:
             self.status = 'Failure'
 
         return self.status
+
+    def update_plan_masterdata(self):
+        df = pd.read_csv(os.path.join(configs.masterdata_folder, configs.plan_stages_metadata_file))
+        plan_stages = []
+
+        for _index, _row in df.iterrows():
+            if _row['Description'] is None or math.isnan(_row['Description']):
+                _row['Description'] = ""
+            plan_stage = PlanStageMasterdata(name=_row['Name'], description=_row['Description'])
+            plan_stages.append(plan_stage)
+
+        # Add new records
+        db.session.add_all(plan_stages)
+        db.session.commit()
+
+        self.status = 'Success'
+
+        return {'status': self.status}
 
     def update_masterdata(self):
         # Load the master dataset

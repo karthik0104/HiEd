@@ -69,4 +69,18 @@ CREATE TABLE locale_bundle (
     FOREIGN KEY (locale_id) REFERENCES locale(id)
 );
 
+CREATE TABLE plan_stage_masterdata (
+    id INTEGER AUTO_INCREMENT,
+    name VARCHAR(256),
+    description VARCHAR(2048),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE plan (
+    application_id INTEGER,
+    plan_stage_id INTEGER,
+    created_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 INSERT INTO locale(language) VALUES ('EN');

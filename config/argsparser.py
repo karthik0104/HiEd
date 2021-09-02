@@ -20,6 +20,7 @@ class ArgumentsParser:
         self.masterdata_folder = data['masterdata']['folder']
         self.university_course_file = data['masterdata']['university_course_file']
         self.locale_bundle_file = data['masterdata']['locale_bundle_file']
+        self.plan_stages_metadata_file = data['masterdata']['plan_stages_metadata_file']
 
         self.rabbit_mq_connection_string = data['rabbitmq']['connection_string']
         self.rabbit_mq_socket_timeout = data['rabbitmq']['socket_timeout']
