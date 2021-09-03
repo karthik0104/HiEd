@@ -14,9 +14,9 @@ application_service = ApplicationService()
 @token_required
 def add_application(current_user: entity.user.User) -> Dict[Any, Any]:
     """
-
-    :param current_user:
-    :return:
+    Router method to add the application
+    :param current_user: The logged in user
+    :return: The application object which is added into the system
     """
     data = request.get_json()
     application = application_service.addApplication(current_user, data)
@@ -26,10 +26,10 @@ def add_application(current_user: entity.user.User) -> Dict[Any, Any]:
 @token_required
 def view_application(current_user: entity.user.User, id: int) -> Dict[Any, Any]:
     """
-
-    :param current_user:
-    :param id:
-    :return:
+    Router method to view an application
+    :param current_user: The logged in user
+    :param id: The application id which is required
+    :return: The application object which is requested
     """
     application = application_service.viewApplication(current_user, id)
     print(application)

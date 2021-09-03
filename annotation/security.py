@@ -6,6 +6,8 @@ from flask import request, jsonify
 from config.argsparser import ArgumentsParser
 from entity.user import User
 from entrypoint import db
+from exception.error_code import ErrorCode
+from exception.field_exception import FieldException
 
 configs = ArgumentsParser()
 
@@ -17,21 +19,21 @@ def token_required(f: object) -> object:
     """
     @wraps(f)
     def decorator(*args, **kwargs):
-        token = None
+        _token = None
 
         if 'x-access-tokens' in request.headers:
-            token = request.headers['x-access-tokens']
+            _token = request.headers['x-access-tokens']
 
-        if not token:
-            return jsonify({'message': 'A valid token is missing'})
+        if not _token:
+            raise FieldException(code=ErrorCode.TOKEN_MISSING, message='A valid token is missing')
         try:
-            data = jwt.decode(token, configs.secret_key)
-            current_user = db.session.query(User).filter_by(public_id=data['public_id']).first()
+            data = jwt.decode(_token, configs.secret_key)
+            _current_user = db.session.query(User).filter_by(public_id=data['public_id']).first()
         except:
-           return jsonify({'message': 'Token is invalid'})
+           raise FieldException(code=ErrorCode.TOKEN_INVALID, message='A valid token is missing')
 
-        if not current_user:
-            return jsonify({'message': 'A valid token is missing'})
+        if not _current_user:
+            raise FieldException(code=ErrorCode.TOKEN_MISSING, message='A valid token is missing')
 
-        return f(current_user, *args, **kwargs)
+        return f(_current_user, *args, **kwargs)
     return decorator

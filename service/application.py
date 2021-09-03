@@ -14,10 +14,10 @@ class ApplicationService:
 
     def addApplication(self, current_user: entity.user.User, data: Dict[Any, Any]) -> entity.application.Application:
         """
-
-        :param current_user:
-        :param data:
-        :return:
+        Service method for adding an application into the system
+        :param current_user: The logged in user
+        :param data: The application request received from the frontend
+        :return: Application object which is added into the system
         """
         _university = db.session.query(University).filter_by(id=data['university_id']).first()
         if _university is None:
@@ -35,13 +35,18 @@ class ApplicationService:
         db.session.commit()
         return _application
 
-    def viewApplication(self, current_user: entity.user.User, id: int) -> entity.application.Application:
+    def viewApplication(self, current_user: entity.user.User, application_id: int) -> entity.application.Application:
         """
+        Service method for viewing an application
+        :param current_user: The logged in user
+        :param id: The application id which is requested
+        :return: The application object which is requested
+        """
+        _application = db.session.query(Application).filter_by(id=application_id).first()
 
-        :param current_user:
-        :param id:
-        :return:
-        """
-        _application = db.session.query(Application).filter_by(id=id).first()
+        # Add resource authorization check
+        if _application.user_id != current_user.id:
+            raise FieldException(code=ErrorCode.NO_AUTHORIZATION, message='Not authorized to access the requested resource')
+
         #return application._asdict()
         return _application
