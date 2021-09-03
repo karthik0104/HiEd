@@ -9,7 +9,12 @@ from entrypoint import db
 
 configs = ArgumentsParser()
 
-def token_required(f):
+def token_required(f: object) -> object:
+    """
+
+    :param f: 
+    :return:
+    """
     @wraps(f)
     def decorator(*args, **kwargs):
         token = None
