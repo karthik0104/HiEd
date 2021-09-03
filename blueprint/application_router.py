@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from flask import Blueprint, request, jsonify
 
@@ -35,3 +35,14 @@ def view_application(current_user: entity.user.User, id: int) -> Dict[Any, Any]:
     print(application)
     print(jsonify(application))
     return jsonify(application)
+
+@application.route('/view/all', methods=['GET'])
+@token_required
+def view_all_applications(current_user: entity.user.User) -> List[Dict[Any, Any]]:
+    """
+    Router method to view all applications created by user
+    :param current_user: The logged in user
+    :return: The application objects which are requested
+    """
+    applications = application_service.viewAllApplications(current_user)
+    return {'applications': applications}

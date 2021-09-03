@@ -6,6 +6,7 @@ def convert_db_row_to_dict(func):
     def wrapper(*args, **kw):
         print('{} called'.format(func.__name__))
         result = []
+        res = None
         try:
             res = func(*args, **kw)
         finally:

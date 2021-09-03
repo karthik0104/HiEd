@@ -1,4 +1,5 @@
 import entity.user
+from annotation.serializer import convert_db_row_to_dict
 from config.argsparser import ArgumentsParser
 from entity.application import Application
 from entity.university import University
@@ -6,7 +7,7 @@ from entity.course import Course
 from entrypoint import db
 from exception.field_exception import FieldException
 from exception.error_code import ErrorCode
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 configs = ArgumentsParser()
 
@@ -50,3 +51,14 @@ class ApplicationService:
 
         #return application._asdict()
         return _application
+
+    @convert_db_row_to_dict
+    def viewAllApplications(self, current_user: entity.user.User) -> List[entity.application.Application]:
+        """
+        Service method for viewing all applications created by the user
+        :param current_user: The logged in user
+        :return: List of application objects which are requested
+        """
+        _applications = db.session.query(Application.id.label('id'), Application.name.label('name')).\
+            filter_by(user_id=current_user.id).all()
+        return _applications

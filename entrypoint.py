@@ -1,6 +1,7 @@
 '''
 The main Flask entrypoint script which contains all the APIs and Blueprint definitions for the application.
 '''
+from exception.error_code import ErrorCode
 
 '''
 List of Entities:
@@ -50,15 +51,25 @@ def init_app():
         def index():
             return render_template('index.html')
 
-        @app.errorhandler(Exception)
+
+        #@app.errorhandler(Exception)
         def handle_error(error):
             response = {}
             response['error_type'] = type(error).__name__
-            response['error_code'] = error.code.value
-            response['message'] = error.message
+
+            if hasattr(error, 'code'):
+                response['error_code'] = error.code.value
+            else:
+                response['error_code'] = ErrorCode.GENERIC_ERROR.value
+
+            if hasattr(error, 'message'):
+                response['message'] = error.message
+            else:
+                response['message'] = 'Generic Error'
             return response
 
         return app
+
 
 if __name__ == '__main__':
     app = init_app()
