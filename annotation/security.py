@@ -35,5 +35,5 @@ def token_required(f: object) -> object:
         if not _current_user:
             raise FieldException(code=ErrorCode.TOKEN_MISSING, message='A valid token is missing')
 
-        return f(_current_user, *args, **kwargs)
+        return f(current_user=_current_user, *args, **kwargs)
     return decorator
