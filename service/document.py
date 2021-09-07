@@ -8,11 +8,55 @@ from entity.user import User
 from exception.error_code import ErrorCode
 from exception.field_exception import FieldException
 from util import diff_match_patch as dmp_module
+from util.mongodb import MongoConnection
+
+from config.argsparser import ArgumentsParser
+
+configs = ArgumentsParser()
 
 class DocumentService:
 
     def __init__(self):
         self.dmp = dmp_module.diff_match_patch()
+        self.mongo_connection = MongoConnection(configs.mongo_username, configs.mongo_password, configs.mongo_server, configs.mongo_database)
+        self.db = self.mongo_connection.connect()
+        self.document_collection = self.mongo_connection.get_collection(configs.mongo_document_collection)
+        self.diff_document_collection = self.mongo_connection.get_collection(configs.mongo_diff_document_collection)
+
+    def create_document(self, current_user: entity.user.User):
+        """
+        Service method to create a new document and save it in the database
+        :param current_user: The user creating the new document
+        """
+        document_id = self.mongo_connection.add_document(self.document_collection, {'data': ''})
+        return {'document_id': document_id}
+
+
+    def save_diff(self, current_user: entity.user.User, document_id: int, changes:str, is_patch: bool) -> bool:
+        """
+        Service method to save the diff changes received for the document
+        :param current_user: The user requesting the changes
+        :param document_id: The document id for which the change is requested
+        :param changes: The diff changes received
+        :param is_patch: If the request is a patch one or replace one
+        :return:
+        """
+        access = self.check_document_access(current_user, document_id)
+        if access is False:
+            raise FieldException(code=ErrorCode.NO_AUTHORIZATION, message='User is not authorized to access this document')
+
+        diff_document = {
+            'author': current_user.id,
+            'document_key': document_id,
+            'is_patch': is_patch,
+            'is_processed': False,
+            'diff': changes
+        }
+
+        self.mongo_connection.add_document(self.diff_document_collection, diff_document)
+
+        return True
+
 
     @token_required
     def apply_changes(self, current_user: entity.user.User, document_id: int, changes: str, is_patch: bool) -> bool:

@@ -34,4 +34,6 @@ class ArgumentsParser:
         self.mongo_username = data['mongodb']['username']
         self.mongo_password = data['mongodb']['password']
         self.mongo_database = data['mongodb']['database']
+        self.mongo_document_collection = data['mongodb']['document_collection']
+        self.mongo_diff_document_collection = data['mongodb']['diff_document_collection']
 

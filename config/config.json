@@ -30,6 +30,9 @@
   "mongodb": {
     "server": "cluster0-shard-00-00.ke7sx.mongodb.net:27017,cluster0-shard-00-01.ke7sx.mongodb.net:27017,cluster0-shard-00-02.ke7sx.mongodb.net",
     "username": "apurva",
-    "password": "Check.mate01#"
+    "password": "Check.mate01#",
+    "database": "hied",
+    "document_collection": "user-documents",
+    "diff_document_collection": "document-diff"
   }
 }

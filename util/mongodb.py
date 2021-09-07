@@ -21,8 +21,8 @@ class MongoConnection():
         :return: MongoDB database
         """
         client = pymongo.MongoClient(
-            "mongodb://{0}:{1}@{2}:27017/{3}?ssl=true&replicaSet=atlas-bzsgmi-shard-0&authSource=admin&retryWrites=true&w=majority")\
-            .format(self.username, self.password, self.server, self.database)
+            "mongodb://{0}:{1}@{2}:27017/{3}?ssl=true&replicaSet=atlas-bzsgmi-shard-0&authSource=admin&retryWrites=true&w=majority"
+                .format(self.username, self.password, self.server, self.database))
         self.db = client[self.database]
         return self.db
 

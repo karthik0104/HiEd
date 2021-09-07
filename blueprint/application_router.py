@@ -45,8 +45,5 @@ def view_all_applications(current_user: entity.user.User) -> List[Dict[Any, Any]
     :param current_user: The logged in user
     :return: The application objects which are requested
     """
-    document_service = DocumentService()
-    document_service.apply_changes(document_id=1, patch='ok')
-
     applications = application_service.viewAllApplications(current_user)
     return {'applications': applications}
