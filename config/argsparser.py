@@ -30,3 +30,8 @@ class ArgumentsParser:
         self.redis_port = data['redis']['port']
         self.redis_password = data['redis']['password']
 
+        self.mongo_server = data['mongodb']['server']
+        self.mongo_username = data['mongodb']['username']
+        self.mongo_password = data['mongodb']['password']
+        self.mongo_database = data['mongodb']['database']
+

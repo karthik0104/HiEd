@@ -36,6 +36,9 @@ class DocumentService:
 
         return True
 
+    def fetch_document_from_database(self, document_id: int):
+        return ''
+
     @staticmethod
     def fetch_document_from_database(document_id: int):
         """
