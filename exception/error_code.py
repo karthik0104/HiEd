@@ -9,3 +9,5 @@ class ErrorCode(Enum):
     NO_AUTHORIZATION = 'HIERR2003'
 
     GENERIC_ERROR = 'HIERR3001'
+
+    NO_DOCUMENT = 'HIERR4001'

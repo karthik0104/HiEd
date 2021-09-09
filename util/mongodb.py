@@ -56,6 +56,33 @@ class MongoConnection():
         result = collection.find_one({"$text": {"$search": search_text}})
         return result
 
+    def find_by_fields(self, collection, search_field_values, multiple=True):
+        """
+        Search documents by field name and values
+        :param collection: Collection instance
+        :param search_field_values: Field by which to search
+        :return: The documents matching the search criteria
+        """
+        if multiple:
+            result = collection.find(search_field_values)
+        else:
+            result = collection.find_one(search_field_values)
+        return result
+
+    def find_by_fields_and_update(self, collection, search_field_values, field_to_update: str, value_for_update: object):
+        """
+        Search document by field name and update the values for a key in the searched document
+        :param collection:
+        :param search_field_values:
+        :param field_to_update:
+        :param value_for_update:
+        :return: Whether update has been successfully performed or not
+        """
+        new_values = { "$set": { field_to_update: value_for_update }}
+
+        collection.update_one(search_field_values, new_values)
+        return True
+
     def add_document(self, collection, document):
         """
         Add a new document to the collection
