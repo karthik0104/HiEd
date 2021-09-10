@@ -13,7 +13,7 @@ List of Entities:
 6. Course
 7. Locale & LocaleField
 
-The primary util system which we will be using for storage is MySQL. We will also be using MongoDB for Document storage.
+The primary util system which we will be using for storage is MySQL. We will also be using MongoDB for Document storage and User Location storage.
 SQLAlchemy would be used as an ORM solution.
 
 The application also uses Web Sockets to handle faster and real-time communication with multiple clients.

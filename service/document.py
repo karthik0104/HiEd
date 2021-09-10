@@ -81,7 +81,10 @@ class DocumentService:
 
         self.mongo_connection.find_by_fields_and_update(self.document_collection, {'_id': ObjectId(document_id)}, 'content', updated_text)
 
-        return updated_text
+        # Get the updated document
+        document = self.check_document_access(current_user, document_id)
+
+        return document
 
     def perform_recursive_diff(self, original_text, required_diffs):
         """

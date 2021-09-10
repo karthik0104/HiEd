@@ -14,17 +14,26 @@ class MongoConnection():
         self.server = server
         self.database = database
         self.db = None
+        self.client = None
 
     def connect(self):
         """
         Connect to the desired mongodb instance
         :return: MongoDB database
         """
-        client = pymongo.MongoClient(
+        self.client = pymongo.MongoClient(
             "mongodb://{0}:{1}@{2}:27017/{3}?ssl=true&replicaSet=atlas-bzsgmi-shard-0&authSource=admin&retryWrites=true&w=majority"
                 .format(self.username, self.password, self.server, self.database))
-        self.db = client[self.database]
+        self.db = self.client[self.database]
         return self.db
+
+    def close(self):
+        """
+        Close the mongodb connection
+        :return:
+        """
+        self.client.close()
+        return None
 
     def get_collection(self, collection_name: str):
         """
@@ -101,6 +110,18 @@ class MongoConnection():
         """
         collection.drop_indexes()
         return True
+
+    def persist_geolocation(self, collection, user_id, latitude, longitude):
+        document = {
+            "user_id": user_id,
+            "location": {
+                "type": "Point",
+                "coordinates": [latitude, longitude]
+            }
+        }
+
+        document_id = collection.insert_one(document).inserted_id
+        return document_id
 
 
 
