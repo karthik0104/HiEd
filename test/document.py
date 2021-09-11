@@ -23,12 +23,23 @@ patch = dmp.patch_fromText(patch_text)
 
 dmp.patch_apply(patch, orig_text)[0]
 
-document_service.create_document(current_user=user)
-document_service.save_diff(current_user=user, document_id='613a0284a50f9184f39bb8c8', changes=patch_text, is_patch=True)
+document_service.create_document_db(current_user=user)
 
-updated_text = document_service.apply_diff(current_user=user, document_id='613a0284a50f9184f39bb8c8')
+import time
+start_time = time.time()
+document_service.save_diff_db(current_user=user, document_id='613a0284a50f9184f39bb8c8', changes=patch_text, is_patch=True)
+end_time = time.time()
+print(end_time - start_time)
+
+updated_text = document_service.apply_diff_db(current_user=user, document_id='613a0284a50f9184f39bb8c8')
 
 collection = document_service.mongo_connection.get_collection('user-documents')
 collection.find_one({'_id': ObjectId('6139fba1ba9b3284660b3399')})
 
 ObjectId('6139fba1ba9b3284660b3399').__str__()
+
+################################################
+
+document_service.create_document(user)
+document_service.save_diff(current_user=user, document_id='613c67bcad64c1ddff2d868e', changes=patch_text, is_patch=True)
+updated_text = document_service.apply_diff(current_user=user, document_id='613c67bcad64c1ddff2d868e')
