@@ -158,6 +158,9 @@ class DocumentService:
             raise FieldException(code=ErrorCode.NO_DOCUMENT,
                                  message='Either document does not exist or User is not authorized to access this document')
 
+        if document_id not in self.redis_pipeline:
+            self.redis_pipeline[document_id] = self.redis_connection.get_pipeline(self.redis)
+
         if is_patch:
             self.redis_connection.save_in_sorted_set_with_timestamp(self.redis_pipeline[document_id], document_id, changes, self.PATCH_PREFIX)
         else:
