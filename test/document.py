@@ -53,4 +53,3 @@ import time
 start_time = time.time()
 updated_text = document_service.apply_diff(current_user=user, document_id='613c67bcad64c1ddff2d868e')
 """
-#################################################

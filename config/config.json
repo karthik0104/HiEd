@@ -34,5 +34,11 @@
     "database": "hied",
     "document_collection": "user-documents",
     "diff_document_collection": "document-diff"
+  },
+  "oauth2": {
+    "google": {
+      "id": "",
+      "secret": ""
+    }
   }
 }
