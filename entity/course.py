@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from dataclasses import dataclass
 from entrypoint import db
+import datetime
 
 @dataclass
 class Course(db.Model):
@@ -9,6 +10,7 @@ class Course(db.Model):
     id: int
     name: str
     university_id: int
+    deadline: str
     website: str
     address: str
     contact_number: str
@@ -31,6 +33,7 @@ class Course(db.Model):
     name = db.Column(db.String)
     university_id = db.Column(db.Integer, db.ForeignKey('university.id', ondelete='CASCADE'), nullable=False)
     website = db.Column(db.String)
+    deadline = db.Column(db.String)
     address = db.Column(db.String)
     contact_number = db.Column(db.String)
     email = db.Column(db.String)
@@ -50,3 +53,4 @@ class Course(db.Model):
 
     def __repr__(self):
         return "<Course(name='%s')>" % (self.name)
+

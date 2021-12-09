@@ -24,11 +24,11 @@ class UniversityService:
         our_univ = db.session.query(University).filter_by(id=id).first()
         return json.dumps(our_univ, cls=alchemy_encoder(), check_circular=False)
 
-    def getAllUniversityCourses(self, current_user, lite=False):
+    def getAllUniversityCourses(self, current_user, lite=False, query=''):
         #all_courses = db.session.query(Course.name.label('name'), University.name.label('university_name')).all()
         all_courses = db.session.query(Course.name.label('name'),
                                        University.name.label('university_name'))\
-            .join(University).filter_by(name='Syracuse University').all()
+            .join(University).filter_by(name=query).all()
         result = []
 
         for course in all_courses:
@@ -44,3 +44,10 @@ class UniversityService:
             filter(func.lower(University.name).like(func.lower(search_query))).all()
 
         return universities
+
+    def getCourseDeadline(self, current_user, data):
+        university = db.session.query(University).filter_by(name=data['university']).first()
+        course = db.session.query(Course).filter(Course.name==data['course'], Course.university_id==university.id).first()
+        course_deadlines = json.loads(course.deadline)
+
+        return course_deadlines[data['admit_term']]

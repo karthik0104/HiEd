@@ -112,6 +112,14 @@ class MongoConnection():
         return True
 
     def persist_geolocation(self, collection, user_id, latitude, longitude):
+        """
+        Persist the geo-location coordinates received for the user
+        :param collection: Collection instance
+        :param user_id: User Id
+        :param latitude: Latitude of the user
+        :param longitude: Longitude of the user
+        :return:
+        """
         document = {
             "user_id": user_id,
             "location": {
@@ -120,10 +128,41 @@ class MongoConnection():
             }
         }
 
-        document_id = collection.insert_one(document).inserted_id
+        existing_document = self.find_by_fields(collection, {"user_id": user_id}, multiple=False)
+
+        if existing_document is None:
+            document_id = collection.insert_one(document).inserted_id
+        else:
+            document_id = collection.update_one({"user_id": user_id}, {"$set": {"location": {
+                "type": "Point",
+                "coordinates": [latitude, longitude]
+            }}})
         return document_id
 
+    def find_closest_points(self, collection, latitude, longitude, min_distance, max_distance):
+        """
+        Find the closest locations from the speficied location and ranges
+        :param collection:
+        :param latitude:
+        :param longitude:
+        :param min_distance:
+        :param max_distance:
+        :return:
+        """
+        result = collection.find(
+            {
+             "location":
+               { "$near":
+                  {
+                    "$geometry": { "type": "Point",  "coordinates": [ latitude, longitude ] },
+                    "$minDistance": min_distance,
+                    "$maxDistance": max_distance
+                  }
+               }
+           }
+        )
 
+        return result
 
     def test(self):
         client = pymongo.MongoClient(

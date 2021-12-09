@@ -5,6 +5,9 @@
     "password": "Check.mate01#",
     "database": "hied"
   },
+  "document": {
+    "download_folder": "C:\\GE_Karthik\\Projects\\HiEd\\Documents\\"
+  },
   "security": {
     "token_validity_in_days": 30,
     "secret_key": "Kiger",
@@ -34,6 +37,10 @@
     "database": "hied",
     "document_collection": "user-documents",
     "diff_document_collection": "document-diff"
+  },
+  "cassandra": {
+    "server": "127.0.0.1",
+    "port" : 9042
   },
   "oauth2": {
     "google": {

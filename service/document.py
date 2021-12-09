@@ -2,6 +2,10 @@
 This is the service layer which caters to providing save and auto-save functionality of documents, and communicating
 with the database.
 """
+import datetime
+import os
+import json
+
 from bson import ObjectId
 
 import entity.user
@@ -13,6 +17,7 @@ from util import diff_match_patch as dmp_module
 from util.mongodb import MongoConnection
 from util.redis import RedisConnection
 from annotation.deprecated import deprecated
+from werkzeug.utils import secure_filename
 import threading
 import re
 
@@ -40,6 +45,16 @@ class DocumentService:
         self.redis_connection = RedisConnection(configs.redis_host, configs.redis_port, configs.redis_password)
         self.redis = self.redis_connection.get_connection()
 
+    def upload_data(self, current_user: entity.user.User, file):
+        """
+        Service method to handle file upload request by saving the file
+        :param current_user: The user uploading the document
+        :param file: The file being uploaded
+        :return: Status to indicate whether upload was successful or not
+        """
+        args = ArgumentsParser()
+        file.save(args.document_download_folder + secure_filename(file.filename))
+        return 1
 
     @deprecated
     def create_document_db(self, current_user: entity.user.User):
@@ -130,12 +145,26 @@ class DocumentService:
         return updated_text
 
 
-    def create_document(self, current_user: entity.user.User):
+    def create_document(self, current_user: entity.user.User, document_exists=False, file_name=None):
         """
         Service method to create a new document and save it in the database
         :param current_user: The user creating the new document
         """
-        document_id = self.mongo_connection.add_document(self.document_collection, {'content': ''})
+        if not document_exists:
+            document_content = {'content': ''}
+        else:
+            if file_name is None:
+                raise FieldException(code=ErrorCode.FILE_MISSING, message='Need to specify a valid file name in case of existing document')
+            else:
+                args = ArgumentsParser()
+                file_path = os.path.join(args.document_download_folder, file_name)
+
+                with open(file_path) as f:
+                    file_content = f.read()
+
+                document_content = {'content': file_content, 'name': file_name, 'user_id': 1, 'created_on': datetime.datetime.now()}
+
+        document_id = self.mongo_connection.add_document(self.document_collection, document_content)
 
         # Initialize the redis pipeline for the document, and the re-entrant lock for protecting the pipeline object
         self.redis_pipeline[str(document_id)] = self.redis_connection.get_pipeline(self.redis)
@@ -143,6 +172,19 @@ class DocumentService:
 
         return {'document_id': str(document_id)}
 
+    def fetch_all_user_documents(self, current_user: entity.user.User):
+        """
+        Service method to fetch all the documents created by the user
+        :param current_user: The user reqeusting the documents
+        :return: The list of documents created by the user
+        """
+        user_documents = self.mongo_connection.find_by_fields(self.document_collection, {}, multiple=True)
+        user_documents = [{k: v for k, v in d.items() if k != '_id'} for d in user_documents]
+
+        for new_id, d in enumerate(user_documents, start=1):
+            d['id'] = new_id
+
+        return {'documents': user_documents}
 
     def save_diff(self, current_user: entity.user.User, document_id: str, changes:str, is_patch: bool) -> bool:
         """

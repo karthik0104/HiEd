@@ -13,6 +13,8 @@ class ArgumentsParser:
         self.db_password = data['database']['password']
         self.db_database = data['database']['database']
 
+        self.document_download_folder = data['document']['download_folder']
+
         self.token_validity_in_days = data['security']['token_validity_in_days']
         self.secret_key = data['security']['secret_key']
         self.security_keys_path = data['security']['app_keys_path']
@@ -36,4 +38,7 @@ class ArgumentsParser:
         self.mongo_database = data['mongodb']['database']
         self.mongo_document_collection = data['mongodb']['document_collection']
         self.mongo_diff_document_collection = data['mongodb']['diff_document_collection']
+
+        self.cassandra_host = data['cassandra']['server']
+        self.cassandra_port = data['cassandra']['port']
 

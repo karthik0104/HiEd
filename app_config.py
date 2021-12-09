@@ -21,4 +21,4 @@ class Config:
                                                                             configs.db_host,
                                                                             configs.db_database)
     SQLALCHEMY_ECHO = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = True

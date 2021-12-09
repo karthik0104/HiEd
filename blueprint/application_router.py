@@ -12,15 +12,16 @@ application = Blueprint('application', __name__)
 application_service = ApplicationService()
 
 @application.route('/create', methods=['POST'])
-@token_required
-def add_application(current_user: entity.user.User) -> Dict[Any, Any]:
+#@token_required
+#def add_application(current_user: entity.user.User) -> Dict[Any, Any]:
+def add_application() -> Dict[Any, Any]:
     """
     Router method to add the application
     :param current_user: The logged in user
     :return: The application object which is added into the system
     """
     data = request.get_json()
-    application = application_service.addApplication(current_user, data)
+    application = application_service.addApplication(None, data)
     return jsonify(application)
 
 @application.route('/view/<id>', methods=['GET'])
@@ -38,12 +39,13 @@ def view_application(current_user: entity.user.User, id: int) -> Dict[Any, Any]:
     return jsonify(application)
 
 @application.route('/view/all', methods=['GET'])
-@token_required
-def view_all_applications(current_user: entity.user.User) -> List[Dict[Any, Any]]:
+#@token_required
+#def view_all_applications(current_user: entity.user.User) -> List[Dict[Any, Any]]:
+def view_all_applications() -> List[Dict[Any, Any]]:
     """
     Router method to view all applications created by user
     :param current_user: The logged in user
     :return: The application objects which are requested
     """
-    applications = application_service.viewAllApplications(current_user)
+    applications = application_service.viewAllApplications(None)
     return {'applications': applications}

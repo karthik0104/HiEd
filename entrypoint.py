@@ -1,6 +1,8 @@
 '''
 The main Flask entrypoint script which contains all the APIs and Blueprint definitions for the application.
 '''
+from flask_cors import CORS
+
 from exception.error_code import ErrorCode
 
 '''
@@ -22,6 +24,7 @@ The application also uses Web Sockets to handle faster and real-time communicati
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, send
+from util import kafka_producer
 
 db = SQLAlchemy()
 
@@ -29,6 +32,8 @@ def init_app():
     """Construct the core application."""
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object('app_config.Config')
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
 
     db.init_app(app)
 
@@ -36,6 +41,8 @@ def init_app():
         from blueprint.university_router import university
         from blueprint.user_router import user
         from blueprint.application_router import application
+        from blueprint.plan_router import plan
+        from blueprint.document_router import document
         from blueprint.masterdata_router import mdm
         from blueprint.metadata_router import metadata
         from blueprint.oauth_router import oauth
@@ -43,6 +50,8 @@ def init_app():
         app.register_blueprint(university, url_prefix='/university')
         app.register_blueprint(user, url_prefix='/user')
         app.register_blueprint(application, url_prefix='/application')
+        app.register_blueprint(plan, url_prefix='/plan')
+        app.register_blueprint(document, url_prefix='/document')
         app.register_blueprint(mdm, url_prefix='/masterdata')
         app.register_blueprint(metadata, url_prefix='/metadata')
         app.register_blueprint(oauth, url_prefix='/oauth')

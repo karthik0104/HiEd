@@ -22,10 +22,19 @@ CREATE TABLE application (
     id INTEGER AUTO_INCREMENT,
     name VARCHAR(256),
     user_id INTEGER,
+    university_id INTEGER,
+    course_id INTEGER,
+    year VARCHAR(10),
+    admit_term VARCHAR(256),
+    area_of_specialization VARCHAR(512),
+    gre_score VARCHAR(5),
+    toefl_ielts_score VARCHAR(5),
     created_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (university_id) REFERENCES university(id),
+    FOREIGN KEY (course_id) REFERENCES course(id)
 );
 
 CREATE TABLE course (
@@ -33,6 +42,7 @@ CREATE TABLE course (
     name VARCHAR(256),
     university_id INTEGER,
     website VARCHAR(256),
+    deadline VARCHAR(512),
     address VARCHAR(256),
     contact_number VARCHAR(256),
     email VARCHAR(256),
@@ -79,8 +89,8 @@ CREATE TABLE plan_stage_masterdata (
 CREATE TABLE plan (
     application_id INTEGER,
     plan_stage_id INTEGER,
-    created_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    start_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    end_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 INSERT INTO locale(language) VALUES ('EN');

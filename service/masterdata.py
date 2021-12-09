@@ -96,7 +96,7 @@ class MasterdataService:
                     course = self.update_data_row(course, row, field_map)
                     new_courses.append(course)
                 else:
-                    course = db.session.query(Course).filter_by(name=row['Course']).first()
+                    course = db.session.query(Course).join(University).filter(Course.name==row['Course'], University.name==row['University Name']).first()
                     course = self.update_data_row(course, row, field_map)
                     updated_courses.append(course)
 

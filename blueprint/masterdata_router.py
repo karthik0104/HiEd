@@ -8,8 +8,9 @@ mdm = Blueprint('mdm', __name__)
 mdm_service = MasterdataService()
 
 @mdm.route('/bulk-university-import', methods=['POST'])
-@token_required
-def bulk_university_import(current_user):
+#@token_required
+#def bulk_university_import(current_user):
+def bulk_university_import():
     status = mdm_service.update_masterdata()
     return status
 

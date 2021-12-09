@@ -79,7 +79,7 @@ class UserService:
 
     def persist_user_location(self, user, latitude, longitude):
         """
-        Utilityn method to persist the user's geo coordinates in the database
+        Utility method to persist the user's geo coordinates in the database
         :param user: The logged in user
         :param latitude: The latitude
         :param longitude: The longitude
@@ -96,3 +96,26 @@ class UserService:
             mongo_connection.close()
 
         return None
+
+    def find_closest_locations(self, user):
+        """
+        Service method to return closest locations to specified location
+        :param user:
+        :return:
+        """
+        mongo_connection = MongoConnection(configs.mongo_username, configs.mongo_password, configs.mongo_server,
+                                                configs.mongo_database)
+        mongo_connection.connect()
+
+        geolocation_closest_points = []
+
+        try:
+            geolocation_collection = mongo_connection.get_collection(self.GEOLOCATION_COLLECTION)
+            geolocation_document = mongo_connection.find_by_fields(geolocation_collection, {"user_id": user.id}, multiple=False)
+            geolocation_closest_points = mongo_connection.find_closest_points(geolocation_collection,
+                                                 geolocation_document['location']['coordinates'][0],
+                                                 geolocation_document['location']['coordinates'][1])
+        finally:
+            mongo_connection.close()
+
+        return geolocation_closest_points

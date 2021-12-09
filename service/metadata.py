@@ -7,6 +7,7 @@ import pandas as pd
 from config.argsparser import ArgumentsParser
 from entity.locale import LocaleField
 from entrypoint import db
+from datetime import datetime
 
 # Load configuration parameters
 configs = ArgumentsParser()
@@ -22,3 +23,7 @@ class MetadataService:
             fields_map[locale_field.screen_name + '_' + locale_field.field_name] = locale_field.value
 
         return {'metadata': fields_map}
+
+    def get_create_plan_metadata(self, current_user):
+        current_month = datetime.now().month
+        return {'admit_terms': ['Spring - 2022', 'Fall - 2022', 'Spring - 2023']}
