@@ -93,4 +93,13 @@ CREATE TABLE plan (
     end_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE discussion_group (
+    id INTEGER AUTO_INCREMENT,
+    name VARCHAR(256),
+    description VARCHAR(2048),
+    university_id INTEGER,
+    PRIMARY KEY (id),
+    FOREIGN KEY (university_id) REFERENCES university(id)
+);
+
 INSERT INTO locale(language) VALUES ('EN');

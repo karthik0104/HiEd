@@ -1,5 +1,6 @@
 import redis
 import time
+from common import REDIS_POOL
 
 class RedisConnection():
 
@@ -8,11 +9,14 @@ class RedisConnection():
         self.port = port
         self.password = password
 
-    def get_connection(self):
-        r = redis.Redis(host=self.host, port=self.port, password=self.password)
+    @classmethod
+    def get_connection(cls):
+        #r = redis.Redis(host=self.host, port=self.port, password=self.password)
+        r = redis.StrictRedis(connection_pool=REDIS_POOL)
         return r
 
-    def get_pipeline(self, r):
+    @classmethod
+    def get_pipeline(cls, r):
         p = r.pipeline()
         return p
 

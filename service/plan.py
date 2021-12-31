@@ -1,5 +1,5 @@
 import entity.user
-from annotation.serializer import convert_db_row_to_dict
+from annotation.serializer import serialize_db_result
 from config.argsparser import ArgumentsParser
 from entity.application import Application
 from entity.plan import Plan, PlanStageMasterdata
@@ -15,7 +15,7 @@ configs = ArgumentsParser()
 
 class PlanService:
 
-    @convert_db_row_to_dict
+    @serialize_db_result
     def viewAllPlans(self, current_user: entity.user.User) -> List[entity.application.Application]:
         """
         Service method for viewing all applications created by the user

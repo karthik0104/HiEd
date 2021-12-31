@@ -13,6 +13,7 @@ class University(db.Model):
     name = db.Column(db.String)
 
     courses = db.relationship('Course', backref='university')
+    discussion_groups = db.relationship('DiscussionGroup', backref='university')
 
     def __repr__(self):
         return "<University(name='%s')>" % (self.name)

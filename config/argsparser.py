@@ -42,3 +42,5 @@ class ArgumentsParser:
         self.cassandra_host = data['cassandra']['server']
         self.cassandra_port = data['cassandra']['port']
 
+        self.records_page_size = data['records_page_size']
+

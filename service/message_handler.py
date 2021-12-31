@@ -126,14 +126,17 @@ def trials():
 
     l = {v: key for key in d for v in d[key]}
 
-    from util.redis import RedisConnection
+    from util.redis_connector import RedisConnection
     from config.argsparser import ArgumentsParser
 
     configs = ArgumentsParser()
 
-    rc = RedisConnection(configs.redis_host, configs.redis_port, configs.redis_password)
-    r = rc.get_connection()
+    #rc = RedisConnection(configs.redis_host, configs.redis_port, configs.redis_password)
+    redis_connection = RedisConnection.get_connection()
 
-    p = rc.get_pipeline(r)
-    rc.save_in_sorted_set_with_timestamp(p, 'document1', '@ok\n11123\nokthanks')
-    rc.execute_pipeline(p)
+    p = RedisConnection.get_pipeline(redis_connection)
+    #rc.save_in_sorted_set_with_timestamp(p, 'document1', '@ok\n11123\nokthanks')
+    #rc.execute_pipeline(p)
+
+    for key in redis_connection.scan_iter("discussion_group:*"):
+        redis_connection.delete(key)

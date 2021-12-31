@@ -15,7 +15,7 @@ from exception.error_code import ErrorCode
 from exception.field_exception import FieldException
 from util import diff_match_patch as dmp_module
 from util.mongodb import MongoConnection
-from util.redis import RedisConnection
+from util.redis_connector import RedisConnection
 from annotation.deprecated import deprecated
 from werkzeug.utils import secure_filename
 import threading
@@ -42,8 +42,8 @@ class DocumentService:
         self.db = self.mongo_connection.connect()
         self.document_collection = self.mongo_connection.get_collection(configs.mongo_document_collection)
         self.diff_document_collection = self.mongo_connection.get_collection(configs.mongo_diff_document_collection)
-        self.redis_connection = RedisConnection(configs.redis_host, configs.redis_port, configs.redis_password)
-        self.redis = self.redis_connection.get_connection()
+        #self.redis_connection = RedisConnection(configs.redis_host, configs.redis_port, configs.redis_password)
+        self.redis = RedisConnection.get_connection()
 
     def upload_data(self, current_user: entity.user.User, file):
         """

@@ -1,7 +1,7 @@
 from functools import wraps
 from sqlalchemy.engine import Row
 
-def convert_db_row_to_dict(func):
+def serialize_db_result(func):
     @wraps(func)
     def wrapper(*args, **kw):
         print('{} called'.format(func.__name__))

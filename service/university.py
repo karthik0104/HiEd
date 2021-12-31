@@ -3,7 +3,7 @@ from entity.university import University
 from entity.course import Course
 from entrypoint import db
 from sqlalchemy import func
-from annotation.serializer import convert_db_row_to_dict
+from annotation.serializer import serialize_db_result
 from util.serializer import alchemy_encoder
 import json
 
@@ -37,7 +37,7 @@ class UniversityService:
 
         return {'courses': result}
 
-    @convert_db_row_to_dict
+    @serialize_db_result
     def getUniversitiesBySearchQuery(self, current_user, query):
         search_query = "%{}%".format(query)
         universities = db.session.query(University.id.label('id'), University.name.label('name')).\

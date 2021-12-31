@@ -1,4 +1,5 @@
 {
+  "records_page_size": 50,
   "database": {
     "host": "localhost",
     "user": "root",

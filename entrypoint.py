@@ -21,10 +21,13 @@ SQLAlchemy would be used as an ORM solution.
 The application also uses Web Sockets to handle faster and real-time communication with multiple clients.
 '''
 
+import sys
+sys.path.insert(0, 'C:\\GE_Karthik\\Projects\\HiEd\\Core')
+
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, send
-from util import kafka_producer
+from util.message_handler import SocketMessageHandler
 
 db = SQLAlchemy()
 
@@ -45,6 +48,7 @@ def init_app():
         from blueprint.document_router import document
         from blueprint.masterdata_router import mdm
         from blueprint.metadata_router import metadata
+        from blueprint.social_router import social
         from blueprint.oauth_router import oauth
 
         app.register_blueprint(university, url_prefix='/university')
@@ -54,6 +58,7 @@ def init_app():
         app.register_blueprint(document, url_prefix='/document')
         app.register_blueprint(mdm, url_prefix='/masterdata')
         app.register_blueprint(metadata, url_prefix='/metadata')
+        app.register_blueprint(social, url_prefix='/social')
         app.register_blueprint(oauth, url_prefix='/oauth')
 
         #db.create_all()  # Create sql tables for our data models
@@ -99,7 +104,7 @@ if __name__ == '__main__':
     def handleMessage(msg):
         print(msg)
         print(request.sid)
-        #handleSocketMessage(msg, request.sid)
+        SocketMessageHandler.handle_message(msg, request.sid)
         send("Message from server !", room=['dummy_id', request.sid])
 
     @socketIo.on("disconnect")
@@ -109,5 +114,5 @@ if __name__ == '__main__':
         #disconnectUser(request.sid)
 
     print('Branch change test !')
-    socketIo.run(app, host='localhost', port=5344)
+    socketIo.run(app, host='127.0.0.1', port=5344)
     #app.run(host='localhost', port=5344)
