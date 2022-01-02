@@ -37,7 +37,7 @@ class SocialService:
             analytics.store_discussion_group_metrics(_discussion_group.id)
 
             # Make the user a follower of the group if the user settings say so
-            self.make_user_as_follower(current_user, _discussion_group.id)
+            self.make_user_as_follower(current_user, _discussion_group.id, False)
 
         except Exception as e:
             print(e)
@@ -45,8 +45,9 @@ class SocialService:
 
         return _discussion_group
 
-    def make_user_as_follower(self, current_user, group_id):
-        # TODO: Check if user settings has "auto-follow mode" enabled
+    def make_user_as_follower(self, current_user, group_id, autofollow_required=False, is_enabled_auto_follow_mode=True):
+        if autofollow_required and (not is_enabled_auto_follow_mode):
+            return
 
         cassandra_connection = CassandraConnection()
         session = cassandra_connection.connect(keyspace='thread_ks')
